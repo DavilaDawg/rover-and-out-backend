@@ -13,7 +13,7 @@ const API_KEY = config.API_KEY;
 // Fetch images from server:
 exports.getImages = async (req, res) => {
   try {
-    const sol = req.query.sol || 1000;
+    const sol = req.query.sol;
     const response = await axios.get(
       `${API_URL}?sol=${sol}&api_key=${API_KEY}`
     );
@@ -30,6 +30,6 @@ exports.getImages = async (req, res) => {
   } catch (error) {
     console.error("Server error getting images:", error.message);
     console.error(error.stack);
-    res.status(500).json({ error: "Failed to fetch images" });
+    res.status(500).json({ error: "Server failed to fetch images" });
   }
 };
