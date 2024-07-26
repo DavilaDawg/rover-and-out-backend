@@ -14,12 +14,12 @@ app.use(router);
 
 const server = http.createServer(app)
 
-/*
 app.listen(port, '0.0.0.0', function() {
   console.log(`Server @  http://localhost:${port}`);
 });
-*/
 
+/*
 server.listen(port, () => {
   console.log(`Public server on port ${port}`)
 })
+*/
