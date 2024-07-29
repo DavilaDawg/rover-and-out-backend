@@ -1,10 +1,7 @@
 const mongoose = require("mongoose");
 
 async function load() {
-  await mongoose.connect("mongodb://127.0.0.1:27017/roverAndOut", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
+  await mongoose.connect("mongodb://127.0.0.1:27017/roverAndOut");
 }
 
 load().catch((err) => console.log("Error connecting to MongoDB:", err));

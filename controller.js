@@ -76,7 +76,7 @@ async function postImage(req, res) {
     }
 
     const data = new Model({
-      URL: imageData,
+      url: imageData,
       metadata: metadata
     });
 
