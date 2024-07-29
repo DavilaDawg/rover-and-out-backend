@@ -1,65 +1,96 @@
+const Model = require("./model.js");
 const axios = require("axios");
 const fs = require("fs");
 const path = require("path");
 
-// Load the configuration file
+// Load the configuration file:
 const configPath = path.resolve(__dirname, "config.json");
 const config = JSON.parse(fs.readFileSync(configPath, "utf8"));
 
-const API_URL =
-  "https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos";
-const MANIFEST_URL =
-  "https://api.nasa.gov/mars-photos/api/v1/manifests/Curiosity"; // uppercase?
+const NASA_API_BASE_URL = "https://api.nasa.gov/mars-photos/api/v1";
 const API_KEY = config.API_KEY;
 
-// Fetch manifest data to get total number of photos for a given sol
-const getManifest = async (sol) => {
+async function getImages(req, res) {
+  const { sol } = req.params; // Retrieve the sol from the URL parameters
+
   try {
-    const response = await axios.get(MANIFEST_URL, {
-      params: { sol, api_key: API_KEY },
-    });
-    return response.data;
-  } catch (error) {
-    console.error("Failed to fetch mission manifest:", error.message);
-    throw new Error("Failed to fetch mission manifest");
-  }
-};
+    const response = await axios.get(
+      `${NASA_API_BASE_URL}/rovers/curiosity/photos`,
+      {
+        params: {
+          sol,
+          api_key: API_KEY,
+        },
+      }
+    );
 
-// Fetch images from NASA API
-exports.getImages = async (req, res) => {
-  try {
-    const sol = req.query.sol;
-    const page = req.query.page || 1;
-    const pageSize = req.query.pageSize || 25;
-
-    // Fetch images for the current page
-    const imageResponse = await axios.get(API_URL, {
-      params: { sol, page, api_key: API_KEY },
-    });
-
-    // Fetch manifest to get total photos
-    const manifest = await getManifest(sol);
-    const totalPhotos = manifest.total_photos || 0; // Default to 0 if undefined
-    const totalPages = Math.ceil(totalPhotos / pageSize);
-
-    const imageInfo = imageResponse.data.photos.map((photo) => ({
-      id: photo.id,
-      img_src: photo.img_src,
-      camera: photo.camera.full_name,
-      earth_date: photo.earth_date,
-      rover_name: photo.rover.name,
-    }));
-
-    res.json({
-      data: imageInfo,
-      total_images: totalPhotos,
-      current_page: parseInt(page),
-      page_size: parseInt(pageSize),
-      total_pages: totalPages,
+    const images = response.data.photos;
+    res.status(200).json({
+      //sending back to service
+      success: true,
+      photos: images, // arr of objs
+      total_photos: images.length,
     });
   } catch (error) {
-    console.error("Server error getting images:", error.message);
-    console.error(error.stack);
-    res.status(500).json({ error: "Server failed to fetch images" });
+    console.error("Error fetching images:", error.message);
+    res.status(500).json({
+      success: false,
+      error: "Error fetching images from NASA API",
+    });
   }
+}
+
+async function getInfo(req, res) {
+  try {
+    const response = await axios.get(
+      `${NASA_API_BASE_URL}/manifests/curiosity`,
+      {
+        params: {
+          api_key: API_KEY,
+        },
+      }
+    );
+
+    const manifest = response.data.photo_manifest;
+    res.status(200).json({
+      success: true,
+      data: manifest,
+    });
+  } catch (error) {
+    console.error("Error fetching manifest info:", error.message);
+    res.status(500).json({
+      success: false,
+      error: "Error fetching manifest info from NASA API",
+    });
+  }
+}
+
+async function postImage(req, res) {
+  try {
+    const { imageData, metadata } = req.body; // url and annotations
+
+    if (!imageData || !metadata) {
+      return res
+        .status(400)
+        .send("Bad Request: Missing image data or metadata");
+    }
+
+    const data = new Model({
+      URL: imageData,
+      metadata: metadata
+    });
+
+    await data.save();
+    res.status(201);
+    res.send(`Posted successfully`);
+  } catch (error) {
+    console.log(error)
+    res.send("Sever error posting");
+  }
+}
+
+module.exports = {
+  getImages,
+  getInfo,
+  postImage,
 };
