@@ -6,7 +6,9 @@ router.get("/api/images/:sol", control.getImages);
 router.get("/api/info", control.getInfo);
 router.get("/save", control.getAnnotatedImgs)
 router.post("/save", control.postImage);
-//router.post("/favorites", control.postFav);
-//router.delete("/favorites/:title", control.deleteFav);
+
+router.get("/favs", control.getFavs)
+router.post("/favs", control.postFav)
+router.delete("/favs/:URL", control.deleteFav);
 
 module.exports = router;

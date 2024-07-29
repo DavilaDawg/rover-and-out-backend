@@ -99,9 +99,48 @@ async function postImage(req, res) {
   }
 }
 
+async function getFavs (req, res) {
+  try {
+    res.body = await Model.find();
+    res.status = 200;
+    res.send(res.body);
+  } catch (error) {
+    res.send("server error getting");
+  }
+};
+
+async function postFav (req, res) {
+  try {
+    const data = new Model({
+      url: req.body.imageData,
+    });
+    data.save();
+    res.status(201);
+  } catch (error) {
+    res.send("server error getting");
+  }
+};
+
+async function deleteFav (req, res) {
+  try {
+    const { URL } = req.params;
+    console.log(URL);
+    res.body = await Model.findOneAndDelete({
+      url: URL,
+    });
+    res.status(200);
+  } catch (error) {
+    console.error(error);
+    res.status(500);
+  }
+};
+
 module.exports = {
   getImages,
   getInfo,
   postImage,
   getAnnotatedImgs,
+  getFavs,
+  postFav, 
+  deleteFav
 };
