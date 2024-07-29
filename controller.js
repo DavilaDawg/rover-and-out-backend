@@ -75,12 +75,15 @@ async function getAnnotatedImgs(req, res) {
 
 async function postImage(req, res) {
   try {
-    const { imageData, metadata } = req.body; // url and annotations
+    const { imageData, metadata } = req.body; // Url and annotations
 
     if (!imageData || !metadata) {
       return res
         .status(400)
-        .send("Bad Request: Missing image data or metadata");
+        .json({
+          success: false,
+          error: "Bad Request: Missing image data or metadata",
+        });
     }
 
     const data = new Model({
@@ -89,11 +92,10 @@ async function postImage(req, res) {
     });
 
     await data.save();
-    res.status(201);
-    res.send(`Posted successfully`);
+    res.status(201).json({ success: true, message: "Posted successfully" });
   } catch (error) {
     console.log(error);
-    res.send("Sever error posting");
+    res.status(500).json({ success: false, error: "Server error posting" });
   }
 }
 
