@@ -9,6 +9,6 @@ router.post("/save", control.postImage);
 
 router.get("/favs", control.getFavs)
 router.post("/favs", control.postFav)
-router.delete("/favs/:URL", control.deleteFav);
+router.delete("/favs/:url", control.deleteFav);
 
 module.exports = router;

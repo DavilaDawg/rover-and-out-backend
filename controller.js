@@ -113,6 +113,7 @@ async function postFav (req, res) {
   try {
     const data = new Model({
       url: req.body.imageData,
+      sol: req.body.sol
     });
     data.save();
     res.status(201);
@@ -123,12 +124,11 @@ async function postFav (req, res) {
 
 async function deleteFav (req, res) {
   try {
-    const { URL } = req.params;
-    console.log(URL);
+    const URL = decodeURIComponent(req.params.url); // Decode URL-encoded string
     res.body = await Model.findOneAndDelete({
       url: URL,
     });
-    res.status(200);
+    res.status(200).send("successful delete");
   } catch (error) {
     console.error(error);
     res.status(500);
