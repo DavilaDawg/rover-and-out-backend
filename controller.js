@@ -40,9 +40,40 @@ async function getImages(req, res) {
   }
 }
 
+async function getImagesByCam(req, res) {
+  const { sol, cam } = req.params; // Retrieve the sol from the URL parameters
+
+  try {
+    const response = await axios.get(
+      `${NASA_API_BASE_URL}/rovers/curiosity/photos`,
+      {
+        params: {
+          sol,
+          camera: cam,
+          api_key: API_KEY,
+        },
+      }
+    );
+
+    const images = response.data.photos;
+    res.status(200).json({
+      //sending back to service
+      success: true,
+      photos: images, // arr of objs
+      total_photos: images.length,
+    });
+  } catch (error) {
+    console.error("Error fetching images:", error.message);
+    res.status(500).json({
+      success: false,
+      error: "Error fetching images from NASA API",
+    });
+  }
+}
+
 async function getInfo(req, res) {
   try {
-    const response = await axios.get(`${NASA_API_BASE_URL}/save`, {
+    const response = await axios.get(`${NASA_API_BASE_URL}/manifests/Curiosity`, {
       params: {
         api_key: API_KEY,
       },
@@ -142,5 +173,6 @@ module.exports = {
   getAnnotatedImgs,
   getFavs,
   postFav, 
-  deleteFav
+  deleteFav,
+  getImagesByCam
 };
