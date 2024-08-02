@@ -1,21 +1,27 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
-async function load() {
-  await mongoose.connect("mongodb://127.0.0.1:27017/roverAndOut");
-}
+const username = encodeURIComponent("DavilaDawg");
+const password = encodeURIComponent(process.env.MONGO_PASSWORD);
 
-load().catch((err) => console.log("Error connecting to MongoDB:", err));
+const uri = `mongodb+srv://${username}:${password}@roverandout.xe3uetx.mongodb.net/?appName=roverAndOut`;
+
+mongoose.connect(uri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => console.log("Successfully connected to MongoDB."))
+.catch(err => console.error("Error connecting to MongoDB:", err));
 
 const dataSchema = new mongoose.Schema({
-  url: { type: String, required: true }, // Points to where the image is stored?? (AWS S3)
+  url: { type: String, required: true }, 
   camera: { type: String, required: false },
   sol: { type: String, required: false },
-  metadata: { // Annotations are stored separately than the image, in the db??
+  metadata: {
     type: mongoose.Schema.Types.Mixed,
     required: false,
   },
 });
 
-const Model = mongoose.model("image", dataSchema);
+const Model = mongoose.model("Image", dataSchema);
 
-module.exports = Model;
+export default Model;

@@ -1,4 +1,4 @@
-const Model = require("./model.js");
+const Model = require("./model.js").default;
 const axios = require("axios");
 const fs = require("fs");
 const path = require("path");
