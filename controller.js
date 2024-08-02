@@ -1,10 +1,10 @@
 const Model = require("./model.js").default;
 const axios = require("axios");
-const fs = require("fs");
-const path = require("path");
+// const fs = require("fs");
+// const path = require("path");
 
-const configPath = path.resolve(__dirname, "config.json");
-const config = JSON.parse(fs.readFileSync(configPath, "utf8"));
+// const configPath = path.resolve(__dirname, "config.json");
+// const config = JSON.parse(fs.readFileSync(configPath, "utf8"));
 
 const NASA_API_BASE_URL = "https://api.nasa.gov/mars-photos/api/v1";
 const API_KEY = process.env.API_KEY;

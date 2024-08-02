@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const username = encodeURIComponent("DavilaDawg");
 const password = encodeURIComponent(process.env.MONGO_PASSWORD);
