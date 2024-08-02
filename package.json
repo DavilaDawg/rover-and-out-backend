@@ -2,10 +2,10 @@
   "name": "my-backend",
   "main": "index.js",
   "scripts": {
-    "start": "node --watch index.js",
-    "build": "echo 'No build step defined'"
+    "start": "node --watch index.js"
   },
   "dependencies": {
+    "@vercel/speed-insights": "^1.0.12",
     "axios": "^1.7.2",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
