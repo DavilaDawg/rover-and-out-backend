@@ -3,15 +3,14 @@ const axios = require("axios");
 const fs = require("fs");
 const path = require("path");
 
-// Load the configuration file:
 const configPath = path.resolve(__dirname, "config.json");
 const config = JSON.parse(fs.readFileSync(configPath, "utf8"));
 
 const NASA_API_BASE_URL = "https://api.nasa.gov/mars-photos/api/v1";
-const API_KEY = config.API_KEY;
+const API_KEY = process.env.API_KEY;
 
 async function getImages(req, res) {
-  const { sol } = req.params; // Retrieve the sol from the URL parameters
+  const { sol } = req.params; 
 
   try {
     const response = await axios.get(
@@ -26,7 +25,6 @@ async function getImages(req, res) {
 
     const images = response.data.photos;
     res.status(200).json({
-      //sending back to service
       success: true,
       photos: images, // arr of objs
       total_photos: images.length,
@@ -41,7 +39,7 @@ async function getImages(req, res) {
 }
 
 async function getImagesByCam(req, res) {
-  const { sol, cam } = req.params; // Retrieve the sol from the URL parameters
+  const { sol, cam } = req.params; 
 
   try {
     const response = await axios.get(
@@ -57,7 +55,6 @@ async function getImagesByCam(req, res) {
 
     const images = response.data.photos;
     res.status(200).json({
-      //sending back to service
       success: true,
       photos: images, // arr of objs
       total_photos: images.length,
@@ -155,7 +152,7 @@ async function postFav (req, res) {
 
 async function deleteFav (req, res) {
   try {
-    const URL = decodeURIComponent(req.params.url); // Decode URL-encoded string
+    const URL = decodeURIComponent(req.params.url); 
     res.body = await Model.findOneAndDelete({
       url: URL,
     });
