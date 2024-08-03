@@ -1,20 +1,20 @@
-const express = require("express");
-const router = express.Router();
-const control = require("./controller.js");
+import { Router } from "express";
+const router = Router();
+import { getImages, getImagesByCam, getInfo, getAnnotatedImgs, postImage, getFavs, postFav, deleteFav } from "./controller.js";
 
 router.get("/", (req, res) => {
     res.send("Welcome to the API!");
 });
 
-router.get("/api/images/:sol", control.getImages);
-router.get("/api/images/:sol/:cam", control.getImagesByCam);
+router.get("/api/images/:sol", getImages);
+router.get("/api/images/:sol/:cam", getImagesByCam);
 
-router.get("/api/info", control.getInfo);
-router.get("/save", control.getAnnotatedImgs)
-router.post("/save", control.postImage);
+router.get("/api/info", getInfo);
+router.get("/save", getAnnotatedImgs)
+router.post("/save", postImage);
 
-router.get("/favs", control.getFavs)
-router.post("/favs", control.postFav)
-router.delete("/favs/:url", control.deleteFav);
+router.get("/favs", getFavs)
+router.post("/favs", postFav)
+router.delete("/favs/:url", deleteFav);
 
-module.exports = router;
+export default router;
