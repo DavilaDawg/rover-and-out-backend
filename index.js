@@ -3,12 +3,18 @@ const app = express();
 const http = require('http')
 require('dotenv').config();
 
-var cors = require("cors");
+const cors = require("cors");
 const router = require("./router.js");
 
 const port = process.env.PORT || 4000;
 
-app.use(cors());
+const frontendOrigin = "https://rover-out.vercel.app"
+
+app.use(cors({
+  origin: frontendOrigin,
+  methods: 'GET,POST,PUT,DELETE',
+  allowedHeaders: "Content-Type"
+}));
 app.use(express.json());
 app.use(router);
 
