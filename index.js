@@ -6,9 +6,9 @@ require('dotenv').config();
 const cors = require("cors");
 const router = require("./router.js");
 
-const port = process.env.PORT || 4000;
+//const port = process.env.PORT || 4000;
 
-const frontendOrigin = "https://rover-out.vercel.app"
+const frontendOrigin = "https://rover-out.vercel.app/boringGallery"
 
 app.use(cors({
   origin: frontendOrigin,
@@ -23,6 +23,6 @@ app.use(router);
 
 const server = http.createServer(app)
 
-server.listen(port, () => {
-  console.log(`Server running @ http://localhost:${port}`);
+server.listen(() => {
+  console.log('Server running @ https://rover-server-6gl9aqzqi-isabella-davilas-projects.vercel.app');
 });
