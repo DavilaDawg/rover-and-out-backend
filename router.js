@@ -2,6 +2,10 @@ const express = require("express");
 const router = express.Router();
 const control = require("./controller.js");
 
+router.get("/", (req, res) => {
+    res.send("Welcome to the API!");
+});
+
 router.get("/api/images/:sol", control.getImages);
 router.get("/api/images/:sol/:cam", control.getImagesByCam);
 
