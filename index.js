@@ -8,15 +8,7 @@ const router = require("./router.js");
 
 //const port = process.env.PORT || 4000;
 
-const frontendOrigin = "https://rover-out.vercel.app/boringGallery"
-
-app.use(cors({
-  origin: frontendOrigin,
-  methods: 'GET,POST,PUT,DELETE',
-  allowedHeaders: "Content-Type"
-}));
-
-app.options('*', cors()); // Preflight request handling
+app.use(cors());
 
 app.use(express.json());
 app.use(router);
