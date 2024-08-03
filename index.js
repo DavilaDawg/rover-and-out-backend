@@ -4,7 +4,7 @@ const http = require('http')
 require('dotenv').config();
 
 var cors = require("cors");
-const router = require("./router.js").default;
+const router = require("./router.js");
 
 const port = process.env.PORT || 4000;
 
