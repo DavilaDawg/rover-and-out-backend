@@ -1,10 +1,6 @@
 const express = require("express");
-const router = Router();
+const router = express.Router();
 const control = require("./controller.js");
-
-router.get("/", (req, res) => {
-    res.send("Welcome to the API!");
-});
 
 router.get("/", (req, res) => {
     res.send("Welcome to the API!");
