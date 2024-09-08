@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 require('dotenv').config();
 
-const uri = `mongodb+srv://DavilaDawg:veryeasypassword12341@roverandout.xe3uetx.mongodb.net/roverAndOut?retryWrites=true&w=majority`;
+//const uri = `mongodb+srv://DavilaDawg:veryeasypassword12341@roverandout.xe3uetx.mongodb.net/roverAndOut?retryWrites=true&w=majority`;
 
 mongoose.connect(uri)
   .then(() => console.log("Successfully connected to MongoDB."))
