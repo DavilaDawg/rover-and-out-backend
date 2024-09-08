@@ -1,22 +1,21 @@
 const mongoose = require("mongoose");
-require('dotenv').config();
 
-//const uri = `mongodb+srv://DavilaDawg:veryeasypassword12341@roverandout.xe3uetx.mongodb.net/roverAndOut?retryWrites=true&w=majority`;
+async function load() {
+  await mongoose.connect("mongodb://127.0.0.1:27017/roverAndOut");
+}
 
-mongoose.connect(uri)
-  .then(() => console.log("Successfully connected to MongoDB."))
-  .catch(err => console.error("Error connecting to MongoDB:", err));
+load().catch((err) => console.log("Error connecting to MongoDB:", err));
 
 const dataSchema = new mongoose.Schema({
   url: { type: String, required: true }, 
   camera: { type: String, required: false },
   sol: { type: String, required: false },
-  metadata: {
+  metadata: { 
     type: mongoose.Schema.Types.Mixed,
     required: false,
   },
 });
 
-const Model = mongoose.model("Image", dataSchema);
+const Model = mongoose.model("image", dataSchema);
 
-module.exports = { Model };
+module.exports = Model;
