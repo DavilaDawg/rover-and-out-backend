@@ -1,5 +1,6 @@
 const Model = require("./model.js");
 const axios = require("axios");
+require('dotenv').config();
 
 const NASA_API_BASE_URL = "https://api.nasa.gov/mars-photos/api/v1";
 const API_KEY = process.env.API_KEY;
